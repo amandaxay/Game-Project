@@ -1,0 +1,14 @@
+# Resolved issues
+**[1]** Initialize project and create canvas 
+
+
+# Marked issues
+**[2]** Implement tilemap
+**[3]** create player movement
+**[4]** Player collisions with walls
+**[5]** Animations & rotations
+**[6]** Enemies & enemy movement
+**[7]** State-based Behavior (power dot)
+**[8]** Ghost state change, eating ghosts
+**[9]** Game states: Winning, losing, etc.
+**[10]** Sounds + polishing
