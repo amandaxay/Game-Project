@@ -1,2 +1,3 @@
-# Game-Project
-A game school project done in HTML5/CSS and vanilla JavaScript
+# PacMan Game!
+## By: Amanda Souriyamath
+A DTC class project done in HTML5/CSS and vanilla JavaScript
