@@ -40,12 +40,15 @@ export default class Pacman {
             case MovingDirection.down:
                 this.y += this.velocity;
                 break;
+
             case MovingDirection.left:
                 this.x -= this.velocity;
                 break;
+
             case MovingDirection.right:
                 this.x += this.velocity;
                 break;
+
         }
     }
 
@@ -74,7 +77,7 @@ export default class Pacman {
     // this will always be applied to pacman
     #keydown = (event)=>{
         // up arrow
-        if(event.keyCode == 38){
+        if(event.keyCode == 38 || event.keyCode == 87){
             // if we are already moving down, switch up
             if(this.currentDir == MovingDirection.down){
                 this.currentDir = MovingDirection.up;
@@ -82,7 +85,7 @@ export default class Pacman {
             this.reqDir = MovingDirection.up;
         }
         // down arrow
-        if(event.keyCode == 40){
+        if(event.keyCode == 40 || event.keyCode == 83){
             // if we are already moving up, switch to down
             if(this.currentDir == MovingDirection.up){
                 this.currentDir = MovingDirection.down;
@@ -90,7 +93,7 @@ export default class Pacman {
             this.reqDir = MovingDirection.down;
         }
         // left arrow
-        if(event.keyCode == 37){
+        if(event.keyCode == 37 || event.keyCode == 65){
             // if we are already moving right, switch to left
             if(this.currentDir == MovingDirection.right){
                 this.currentDir = MovingDirection.left;
@@ -98,7 +101,7 @@ export default class Pacman {
             this.reqDir = MovingDirection.left;
         }
         // right arrow
-        if(event.keyCode == 39){
+        if(event.keyCode == 39 || event.keyCode == 68){
             // if we are already moving left, switch to right
             if(this.currentDir == MovingDirection.left){
                 this.currentDir = MovingDirection.right;
