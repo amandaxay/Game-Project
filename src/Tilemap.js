@@ -1,4 +1,5 @@
 import Pacman from "./Pacman.js";
+import MovingDirection from "./MovingDirection.js";
 export default class TileMap{
     constructor(tileSize){
         this.tileSize = tileSize;
@@ -46,13 +47,13 @@ export default class TileMap{
                     this.#drawDot(ctx, col, row, this.tileSize);
                 }
 
-                ctx.strokeStyle = "yellow";
-                ctx.strokeRect(
-                    col * this.tileSize, 
-                    row * this.tileSize, 
-                    this.tileSize, 
-                    this.tileSize
-                );
+                // ctx.strokeStyle = "yellow";
+                // ctx.strokeRect(
+                //     col * this.tileSize, 
+                //     row * this.tileSize, 
+                //     this.tileSize, 
+                //     this.tileSize
+                // );
             }
         }
     }
@@ -98,5 +99,9 @@ export default class TileMap{
     setCanvasSize(canvas) {
         canvas.width = this.map[0].length * this.tileSize;
         canvas.height = this.map.length * this.tileSize;
+    }
+
+    didCollideWithEnvironment(x, y, direction){
+
     }
 }

@@ -1,10 +1,10 @@
 # Resolved issues
 **[1]** Initialize project and create canvas 
 **[2]** Implement tilemap
+**[3]** create player movement
 
 
 # Marked issues
-**[3]** create player movement
 **[4]** Player collisions with walls
 **[5]** Animations & rotations
 **[6]** Enemies & enemy movement
