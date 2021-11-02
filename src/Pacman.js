@@ -29,10 +29,16 @@ export default class Pacman {
     #move(){
         if(this.currentDir !== this.reqDir){
             if(Number.isInteger(this.x/this.tileSize) && Number.isInteger(this.y/this.tileSize)){
-                // if it is an even position we are allowed
-                this.currentDir = this.reqDir;
+                if(!this.tileMap.didCollideWithEnvironment(this.x, this.y, this.reqDir))
+                    // if it is an even position we are allowed
+                    this.currentDir = this.reqDir;
             }
         }
+
+        if(this.tileMap.didCollideWithEnvironment(this.x, this.y, this.currentDir)){
+            return;
+        }
+
         switch(this.currentDir){
             case MovingDirection.up:
                 this.y -= this.velocity;

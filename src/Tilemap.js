@@ -101,7 +101,43 @@ export default class TileMap{
         canvas.height = this.map.length * this.tileSize;
     }
 
-    didCollideWithEnvironment(x, y, direction){
+    didCollideWithEnvironment(x,y,direction){
+        if(Number.isInteger(x/this.tileSize) && Number.isInteger(y/this.tileSize)){
+            let col = 0;
+            let row = 0;
+            let nextCol = 0;
+            let nextRow = 0;
 
+            switch(direction){
+                case MovingDirection.right:
+                    nextCol = x + this.tileSize;
+                    col = nextCol / this.tileSize;
+                    row = y / this.tileSize;
+                    break;
+
+                case MovingDirection.left:
+                    nextCol = x - this.tileSize;
+                    col = nextCol / this.tileSize;
+                    row = y / this.tileSize;
+                    break;
+
+                case MovingDirection.up:
+                    nextRow = y - this.tileSize;
+                    row = nextRow / this.tileSize;
+                    col = x / this.tileSize;
+                    break;
+                
+                case MovingDirection.down:
+                    nextRow = y + this.tileSize;
+                    row = nextRow / this.tileSize;
+                    col = x / this.tileSize;
+                    break;
+            }
+            const tile = this.map[row][col];
+            if(tile === 1){
+                return true;
+            }
+        }
+        return false;
     }
 }
