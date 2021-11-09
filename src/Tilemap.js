@@ -12,8 +12,9 @@ export default class TileMap{
     }
 
     // 1 - wall
-    // 0 - path
+    // 0 - dots
     // 4 - pac Man
+    // 5 - empty space
     map = [
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
         [1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1],
@@ -40,11 +41,14 @@ export default class TileMap{
         for(let row = 0; row < this.map.length; row++){
             for(let col = 0; col < this.map[row].length; col++){
                 let tile = this.map[row][col];
-                if(tile == 1){
+                if(tile === 1){
                     this.#drawWall(ctx, col, row, this.tileSize);   // # indicates private methods
                 }
-                else if (tile == 0){
+                else if (tile === 0){
                     this.#drawDot(ctx, col, row, this.tileSize);
+                }
+                else {
+                    this.#drawBlank(ctx, col, row, this.tileSize);
                 }
 
                 // ctx.strokeStyle = "yellow";
@@ -76,6 +80,11 @@ export default class TileMap{
             size, 
             size
         );
+    }
+
+    #drawBlank(ctx, col, row, size){
+        ctx.fillStyle = 'black';
+        ctx.fillRect(col * this.tileSize, row * this.tileSize, size, size)
     }
 
     getPacman(velocity){
@@ -139,6 +148,19 @@ export default class TileMap{
             }
             const tile = this.map[row][col];
             if(tile === 1){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    eatDot(x, y){
+        const row = y / this.tileSize;
+        const col = x / this.tileSize;
+        if(Number.isInteger(row) && Number.isInteger(col)){
+            if(this.map[row][col] === 0){
+                // is a dot, eat dot
+                this.map[row][col] = 5;
                 return true;
             }
         }
