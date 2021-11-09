@@ -10,20 +10,45 @@ export default class Pacman {
         this.currentDir = null;
         this.reqDir = null;     // requested direction
 
+        this.pacmanAnimationTimerDefault = 10;
+        this.pacmanAnimationTimer = null;
+
+        this.pacmanRotation = this.Rotation.right;
+
         document.addEventListener("keydown", this.#keydown);
 
         this.#loadPacmanImages();
     }
 
+    Rotation = {
+        right:0,
+        down:1,
+        left:2,
+        up:3,
+    }
+
     draw(ctx){
         this.#move();
-        ctx.drawImage(
-            this.pacmanImages[this.pacmanImageIndex], 
-            this.x, 
-            this.y, 
-            this.tileSize, 
-            this.tileSize
-            );
+        this.#animate();
+
+        // rotating pacman
+        const size = this.tileSize/2;
+
+        ctx.save();     // save this state to restore
+        ctx.translate(this.x + size, this.y + size);    // flip the entire canvas
+        ctx.rotate((this.pacmanRotation * 90 * Math.PI / 180)); // rotation math with our pacmanRotation values
+        ctx.drawImage(this.pacmanImages[this.pacmanImageIndex], -size, -size, this.tileSize, this.tileSize);    // use our pacman images for rotations
+        ctx.restore();  // restore to original state
+
+
+        // version without rotation
+        // ctx.drawImage(
+        //     this.pacmanImages[this.pacmanImageIndex], 
+        //     this.x, 
+        //     this.y, 
+        //     this.tileSize, 
+        //     this.tileSize
+        //     );
     }
 
     #move(){
@@ -36,23 +61,33 @@ export default class Pacman {
         }
 
         if(this.tileMap.didCollideWithEnvironment(this.x, this.y, this.currentDir)){
+            // stop the animation if collided
+            this.pacmanAnimationTimer = null;
+            this.pacmanImageIndex = 1;
             return;
+        } else if(this.currentDir != null && this.pacmanAnimationTimer == null){
+            // if the we are first moving, set the animate
+            this.pacmanAnimationTimer = this.pacmanAnimationTimerDefault;
         }
 
         switch(this.currentDir){
             case MovingDirection.up:
                 this.y -= this.velocity;
+                this.pacmanRotation = this.Rotation.up;
                 break;
             case MovingDirection.down:
                 this.y += this.velocity;
+                this.pacmanRotation = this.Rotation.down;
                 break;
 
             case MovingDirection.left:
                 this.x -= this.velocity;
+                this.pacmanRotation = this.Rotation.left;
                 break;
 
             case MovingDirection.right:
                 this.x += this.velocity;
+                this.pacmanRotation = this.Rotation.right;
                 break;
 
         }
@@ -78,7 +113,7 @@ export default class Pacman {
             pacmanImage3
         ];
 
-        this.pacmanImageIndex = 2;
+        this.pacmanImageIndex = 0;
     }
     // this will always be applied to pacman
     #keydown = (event)=>{
@@ -113,6 +148,20 @@ export default class Pacman {
                 this.currentDir = MovingDirection.right;
             }
             this.reqDir = MovingDirection.right;
+        }
+    }
+
+    #animate() {
+        if(this.pacmanAnimationTimer == null){
+            return;
+        }
+        this.pacmanAnimationTimer--;
+        if(this.pacmanAnimationTimer == 0){
+            this.pacmanAnimationTimer = this.pacmanAnimationTimerDefault;
+            this.pacmanImageIndex++;
+            if(this.pacmanImageIndex == this.pacmanImages.length){
+                this.pacmanImageIndex = 0;
+            }
         }
     }
 }
