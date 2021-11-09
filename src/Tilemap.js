@@ -102,6 +102,10 @@ export default class TileMap{
     }
 
     didCollideWithEnvironment(x,y,direction){
+        if(direction == null){
+            return;
+        }
+
         if(Number.isInteger(x/this.tileSize) && Number.isInteger(y/this.tileSize)){
             let col = 0;
             let row = 0;
