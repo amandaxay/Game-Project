@@ -5,6 +5,7 @@
 **[4]** Player collisions with walls
 **[5]** Animations & rotations
 **[5.5]** Pacman eat dots & scoring
+**[5.75]** Sounds
 
 
 # Marked issues

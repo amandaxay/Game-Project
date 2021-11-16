@@ -16,7 +16,7 @@ export default class Pacman {
         this.pacmanAnimationTimer = null;
 
         this.pacmanRotation = this.Rotation.right;
-        this.wakaSound = new Audio("../audio/waka.wav");
+        this.wakaSound = new Audio('../audio/waka.wav');
 
         document.addEventListener("keydown", this.#keydown);
 
@@ -170,7 +170,7 @@ export default class Pacman {
 
     #eatDot(){
         if(this.tileMap.eatDot(this.x, this.y)){
-           // play sound 
+           // play sound works on mozilla firefox, but not safari
            this.wakaSound.play();
            // increment score
            score.innerText++;
