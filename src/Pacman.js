@@ -1,8 +1,10 @@
 import MovingDirection from "./MovingDirection.js";
+var score = document.getElementById("score");
 export default class Pacman {
     constructor(x, y, tileSize, velocity, tileMap){
+        score.innerText--;
         this.x = x;
-        this.y = y; 
+        this.y = y;
         this.tileSize = tileSize;
         this.velocity = velocity;
         this.tileMap = tileMap;
@@ -14,6 +16,7 @@ export default class Pacman {
         this.pacmanAnimationTimer = null;
 
         this.pacmanRotation = this.Rotation.right;
+        this.wakaSound = new Audio("../audio/waka.wav");
 
         document.addEventListener("keydown", this.#keydown);
 
@@ -168,7 +171,9 @@ export default class Pacman {
     #eatDot(){
         if(this.tileMap.eatDot(this.x, this.y)){
            // play sound 
-           
+           this.wakaSound.play();
+           // increment score
+           score.innerText++;
         }
     }
 }
