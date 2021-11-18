@@ -1,5 +1,7 @@
 import Pacman from "./Pacman.js";
+import Enemy from "./Enemy.js";
 import MovingDirection from "./MovingDirection.js";
+
 export default class TileMap{
     constructor(tileSize){
         this.tileSize = tileSize;
@@ -15,11 +17,12 @@ export default class TileMap{
     // 0 - dots
     // 4 - pac Man
     // 5 - empty space
+    // 6 - enemy
     map = [
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1],
+        [1, 6, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1],
         [1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1],
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 0, 0, 1],
         [1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1],
         [1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1],
         [1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1],
@@ -33,7 +36,7 @@ export default class TileMap{
         [1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1],
         [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
         [1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1],
-        [1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1],
+        [1, 6, 0, 0, 1, 0, 0, 6, 0, 0, 1, 0, 0, 6, 1],
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
     ];
 
@@ -85,6 +88,29 @@ export default class TileMap{
     #drawBlank(ctx, col, row, size){
         ctx.fillStyle = 'black';
         ctx.fillRect(col * this.tileSize, row * this.tileSize, size, size)
+    }
+
+    getEnemies(velocity){
+        const enemies = [];
+
+        for(let row = 0; row < this.map.length; row++){
+            for(let col = 0; col < this.map[row].length; col++){
+                const tile = this.map[row][col];
+                if(tile === 6){
+                    this.map[row][col] = 0;
+                    enemies.push(
+                        new Enemy(
+                            col * this.tileSize, 
+                            row * this.tileSize, 
+                            this.tileSize, 
+                            velocity, 
+                            this
+                        )
+                    );
+                }
+            }
+        }
+        return enemies;
     }
 
     getPacman(velocity){
