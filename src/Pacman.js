@@ -171,6 +171,7 @@ export default class Pacman {
     #eatDot(){
         if(this.tileMap.eatDot(this.x, this.y)){
            // play sound works on mozilla firefox, but not safari
+           // https://developer.apple.com/library/archive/documentation/AudioVideo/Conceptual/Using_HTML5_Audio_Video/Device-SpecificConsiderations/Device-SpecificConsiderations.html
            this.wakaSound.play();
            // increment score
            score.innerText++;
