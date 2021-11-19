@@ -18,6 +18,14 @@ export default class Pacman {
         this.pacmanRotation = this.Rotation.right;
         this.wakaSound = new Audio('../audio/waka.wav');
 
+        this.powerDotSound = new Audio("../audio/power_dot.wav");
+        this.powerDotActive = false;
+        this.powerDotAboutToExpire = false;
+
+        this.timers = [];
+
+        this.madeFirstMove = false;
+
         document.addEventListener("keydown", this.#keydown);
 
         this.#loadPacmanImages();
@@ -34,6 +42,7 @@ export default class Pacman {
         this.#move();
         this.#animate();
         this.#eatDot();
+        this.#eatPowerDot();
         // rotating pacman
         const size = this.tileSize/2;
 
@@ -127,6 +136,7 @@ export default class Pacman {
                 this.currentDir = MovingDirection.up;
             }
             this.reqDir = MovingDirection.up;
+            this.madeFirstMove = true;
         }
         // down arrow
         if(event.keyCode == 40 || event.keyCode == 83){
@@ -135,6 +145,7 @@ export default class Pacman {
                 this.currentDir = MovingDirection.down;
             }
             this.reqDir = MovingDirection.down;
+            this.madeFirstMove = true;
         }
         // left arrow
         if(event.keyCode == 37 || event.keyCode == 65){
@@ -143,6 +154,7 @@ export default class Pacman {
                 this.currentDir = MovingDirection.left;
             }
             this.reqDir = MovingDirection.left;
+            this.madeFirstMove = true;
         }
         // right arrow
         if(event.keyCode == 39 || event.keyCode == 68){
@@ -151,6 +163,7 @@ export default class Pacman {
                 this.currentDir = MovingDirection.right;
             }
             this.reqDir = MovingDirection.right;
+            this.madeFirstMove = true;
         }
     }
 
@@ -169,12 +182,37 @@ export default class Pacman {
     }
 
     #eatDot(){
-        if(this.tileMap.eatDot(this.x, this.y)){
+        if(this.tileMap.eatDot(this.x, this.y) && this.madeFirstMove){
            // play sound works on mozilla firefox, but not safari
            // https://developer.apple.com/library/archive/documentation/AudioVideo/Conceptual/Using_HTML5_Audio_Video/Device-SpecificConsiderations/Device-SpecificConsiderations.html
            this.wakaSound.play();
            // increment score
            score.innerText++;
+        }
+    }
+
+    #eatPowerDot() {
+        if(this.tileMap.eatPowerDot(this.x, this.y)){
+            score.innerText = Number(score.innerText) + Number(10); // add 10
+            
+            this.powerDotSound.play();
+            // the ghost will become blue
+            this.powerDotActive = true;
+            this.powerDotAboutToExpire = false;
+            this.timers.forEach((timer)=>clearTimeout(timer));
+            this.timers = [];
+
+            let powerDotTimer = setTimeout(()=>{
+                this.powerDotActive = false;
+                this.powerDotAboutToExpire = false;
+            },1000*6);  // 6 seconds
+            this.timers.push(powerDotTimer);
+
+            let powerDotAboutToExpireTimer = setTimeout(()=>{
+                this.powerDotAboutToExpire = true;
+            }, 1000*3);
+
+            this.timers.push(powerDotAboutToExpireTimer);
         }
     }
 }
