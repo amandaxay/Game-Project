@@ -162,6 +162,16 @@ export default class TileMap{
         canvas.height = this.map.length * this.tileSize;
     }
 
+    didWin(){
+        return this.#dotsLeft() === 0;
+    }
+
+    #dotsLeft(){
+        // flat transforms our 2d array into 1d
+        // filters how many 0 dots are left
+        return this.map.flat().filter(tile => tile === 0).length;
+    }
+
     didCollideWithEnvironment(x,y,direction){
         if(direction == null){
             return;
