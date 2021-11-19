@@ -2,7 +2,6 @@ import MovingDirection from "./MovingDirection.js";
 var score = document.getElementById("score");
 export default class Pacman {
     constructor(x, y, tileSize, velocity, tileMap){
-        score.innerText--;
         this.x = x;
         this.y = y;
         this.tileSize = tileSize;
@@ -17,6 +16,8 @@ export default class Pacman {
 
         this.pacmanRotation = this.Rotation.right;
         this.wakaSound = new Audio('../audio/waka.wav');
+
+        this.eatSound = new Audio("../audio/eat_ghost.wav");
 
         this.powerDotSound = new Audio("../audio/power_dot.wav");
         this.powerDotActive = false;
@@ -38,11 +39,14 @@ export default class Pacman {
         up:3,
     }
 
-    draw(ctx){
-        this.#move();
-        this.#animate();
+    draw(ctx, pause, enemies){
+        if(!pause){
+            this.#move();
+            this.#animate();
+        }
         this.#eatDot();
         this.#eatPowerDot();
+        this.#eatGhost(enemies);
         // rotating pacman
         const size = this.tileSize/2;
 
@@ -181,6 +185,18 @@ export default class Pacman {
         }
     }
 
+    #eatGhost(enemies){
+        if(this.powerDotActive){
+            // if we collide with a ghost during powerdotactive, remove the ghost
+            const collideEnemies = enemies.filter((enemy)=> enemy.collideWith(this));
+            collideEnemies.forEach((enemy)=>{
+                enemies.splice(enemies.indexOf(enemy),1);
+                score.innerText = Number(score.innerText) + Number(12); // add 10
+                this.eatSound.play();
+            });
+        }
+    }
+
     #eatDot(){
         if(this.tileMap.eatDot(this.x, this.y) && this.madeFirstMove){
            // play sound works on mozilla firefox, but not safari
@@ -193,9 +209,9 @@ export default class Pacman {
 
     #eatPowerDot() {
         if(this.tileMap.eatPowerDot(this.x, this.y)){
-            score.innerText = Number(score.innerText) + Number(10); // add 10
+            score.innerText = Number(score.innerText) + Number(2); // add 10
             
-            this.powerDotSound.play();
+            //this.powerDotSound.play();    this is too loud
             // the ghost will become blue
             this.powerDotActive = true;
             this.powerDotAboutToExpire = false;
