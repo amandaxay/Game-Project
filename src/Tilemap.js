@@ -10,13 +10,13 @@ export default class TileMap{
         this.yellowDot.src = "img/yellowDot.png";
 
         this.pinkDot = new Image();
-        this.pinkDot.src = "img/pinkdot.png";
+        this.pinkDot.src = "img/pinkDot.png";
         
         this.wall = new Image()
         this.wall.src = "img/wall.png";
 
         this.powerDot = this.pinkDot;
-        this.powerDotAnimationTimerDefault = 90;
+        this.powerDotAnimationTimerDefault = 30;
         this.powerDotAnimationTimer = this.powerDotAnimationTimerDefault;
     }
 
