@@ -8,9 +8,9 @@
 **[5.75]** Sounds
 **[6]** Enemies & enemy movement
 **[7]** State-based Behavior (power dot)
+**[8]** Ghost state change, eating ghosts
 
 
 # Marked issues
-**[8]** Ghost state change, eating ghosts
 **[9]** Game states: Winning, losing, etc.
 **[10]** Sounds + polishing
