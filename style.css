@@ -2,16 +2,24 @@
     /* box-shadow: 5px 10px 8px black; */
 }
 
-h1, h2{
+h1{
     text-align: center;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Press Start 2P', cursive;
     color:blue;
+}
+
+h2{
+    text-align: center;
+    font-size: 18px;
+    font-family: 'Press Start 2P', cursive;
+    color:lightblue;
 }
 
 p {
     text-align: left;
     padding-left: 10%;
-    font-family: Arial, Helvetica, sans-serif;
+    font-size: 30px;
+    font-family: 'Odibee Sans', cursive;
     color:white;
 }
 
