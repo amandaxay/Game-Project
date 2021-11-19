@@ -12,8 +12,8 @@ const enemies = tileMap.getEnemies(velocity);
 
 let gameOver = false;
 let gameWin = false;
-const gameOverSound = new Audio("../audio/gameOver.wav");
-const gameWinSound = new Audio("../audio/gameWin.wav");
+const gameOverSound = new Audio("audio/gameOver.wav");
+const gameWinSound = new Audio("audio/gameWin.wav");
 
 
 // similar to an update function in Java
